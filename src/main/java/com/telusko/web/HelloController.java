@@ -18,7 +18,8 @@ public class HelloController {
 
 	@RequestMapping("/")
 	public String home() {
-		return "index.jsp";
+		//return "index.jsp";
+		return "index";
 	}
 
 	
@@ -26,7 +27,8 @@ public class HelloController {
 	public String add(@RequestParam("t1") String t1, @RequestParam("t2") String t2,  HttpServletRequest request , HttpServletResponse response) { 
 		int result = addService.addMe(Integer.parseInt(t1),Integer.parseInt(t2));
 		request.setAttribute("result",  result);
-		return "display.jsp"; 
+		//return "display.jsp";
+		return "display";
 	}
 	 
 
@@ -34,7 +36,8 @@ public class HelloController {
 	public ModelAndView add(@RequestParam("t1") String t1, @RequestParam("t2") String t2) {
 		int result = addService.addMe(Integer.parseInt(t1),Integer.parseInt(t2));
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("display.jsp");
+		//mv.setViewName("display.jsp");
+		mv.setViewName("display");
 		mv.addObject("result", result);
 		return mv;
 	}

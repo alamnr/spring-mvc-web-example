@@ -24,8 +24,8 @@ public class HelloController {
 
 	
 	@RequestMapping(value = "/add" , method = RequestMethod.GET)
-	public String add(@RequestParam("t1") String t1, @RequestParam("t2") String t2,  HttpServletRequest request , HttpServletResponse response) { 
-		int result = addService.addMe(Integer.parseInt(t1),Integer.parseInt(t2));
+	public String add(@RequestParam("t1") int t1, @RequestParam("t2") int t2,  HttpServletRequest request , HttpServletResponse response) { 
+		int result = addService.addMe(t1,t2);
 		request.setAttribute("result",  result);
 		//return "display.jsp";
 		return "display";
@@ -33,8 +33,8 @@ public class HelloController {
 	 
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView add(@RequestParam("t1") String t1, @RequestParam("t2") String t2) {
-		int result = addService.addMe(Integer.parseInt(t1),Integer.parseInt(t2));
+	public ModelAndView add(@RequestParam("t1") int t1, @RequestParam("t2") int t2) {
+		int result = addService.addMe(t1,t2);
 		ModelAndView mv = new ModelAndView();
 		//mv.setViewName("display.jsp");
 		mv.setViewName("display");

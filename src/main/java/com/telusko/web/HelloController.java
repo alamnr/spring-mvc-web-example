@@ -30,8 +30,7 @@ public class HelloController {
 		//return "display.jsp";
 		return "display";
 	}
-	 
-
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(@RequestParam("t1") int t1, @RequestParam("t2") int t2) {
 		int result = addService.addMe(t1,t2);
@@ -40,6 +39,18 @@ public class HelloController {
 		mv.setViewName("display");
 		mv.addObject("result", result);
 		return mv;
+	}
+	
+	@RequestMapping("/about")
+	public String about( )	{
+		
+		return "about";
+	}
+	
+	@RequestMapping("/secure")
+	public String securePage( )	{
+		
+		return "securePage";
 	}
 
 }

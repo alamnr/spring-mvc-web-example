@@ -18,12 +18,13 @@
     		
     		<security:intercept-url pattern="/secure" access="hasRole('ADMIN')"/>
 			<security:intercept-url pattern="/add"  access="hasRole('USER')"/>
+			<security:intercept-url pattern="/ghap"  access="hasRole('USER')"/>
 			<security:intercept-url pattern="/" access="hasRole('USER')"/>
 			
 			
 			<security:intercept-url pattern="/**"  access="denyAll"/>	
 			
-			<security:access-denied-handler error-page="/WEB-INF/jsp/error.jsp"/>		
+			<security:access-denied-handler error-page="/WEB-INF/jsp/accessDenied.jsp"/>		
 			<security:form-login/>
 			<security:logout delete-cookies="JSESSIONID"  invalidate-session="true" logout-success-url="/login?logout"/>
 			<security:csrf disabled="true"/>

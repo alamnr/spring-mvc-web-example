@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +52,14 @@ public class HelloController {
 	public String securePage( )	{
 		
 		return "securePage";
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ModelAndView handleException(Exception ex) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("error");
+		mv.addObject("message",ex.getMessage());
+		return mv;
 	}
 
 }

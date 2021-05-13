@@ -3,7 +3,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css"
-	href="<c:url value="/resources/css/style.css" /> ">
+	href="<c:url value="/static/css/style.css" /> ">
 <title>Home page</title>
 </head>
 <body>

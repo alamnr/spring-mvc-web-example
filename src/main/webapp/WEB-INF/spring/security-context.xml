@@ -9,11 +9,11 @@
 		<bean id ="passwordEncoder" class = "org.springframework.security.crypto.password.NoOpPasswordEncoder" factory-method = "getInstance" />
 		
 
-		<security:http pattern="/resources/**" security="none" /> 
+		
 		<!-- <security:http auto-config="true" use-expressions="false"> -->
 		<security:http>
 			   		
-			<security:intercept-url pattern="/resources/**" access="permitAll"/>   		
+			<security:intercept-url pattern="/static/**" access="permitAll"/> 		
     		<security:intercept-url pattern="/about" access="permitAll"/>
     		
     		<security:intercept-url pattern="/secure" access="hasRole('ADMIN')"/>

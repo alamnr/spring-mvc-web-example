@@ -15,8 +15,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	
-	
-	
+		
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()

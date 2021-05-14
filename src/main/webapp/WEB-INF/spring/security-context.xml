@@ -25,8 +25,12 @@
 			<security:intercept-url pattern="/**"  access="denyAll"/>	
 			
 			<security:access-denied-handler error-page="/WEB-INF/jsp/accessDenied.jsp"/>		
-			<security:form-login/>
+			 
+			<security:form-login/> 
 			<security:logout delete-cookies="JSESSIONID"  invalidate-session="true" logout-success-url="/login?logout"/>
+			
+			<!-- <security:http-basic/> -->
+			
 			<security:csrf disabled="true"/>
 		</security:http>
 		

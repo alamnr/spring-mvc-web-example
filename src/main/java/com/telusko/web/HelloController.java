@@ -22,7 +22,11 @@ public class HelloController {
 		//return "index.jsp";
 		return "index";
 	}
-
+	
+	@RequestMapping(value ="/login", method = RequestMethod.GET )
+	public String loginPage() {  
+		return "login";
+	}
 	
 	@RequestMapping(value = "/add" , method = RequestMethod.GET)
 	public String add(@RequestParam("t1") int t1, @RequestParam("t2") int t2,  HttpServletRequest request , HttpServletResponse response) { 

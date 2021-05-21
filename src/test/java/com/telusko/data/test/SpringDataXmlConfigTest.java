@@ -27,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TestTransaction;
@@ -49,6 +50,9 @@ public class SpringDataXmlConfigTest {
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	NoOpPasswordEncoder noOpPasswordEncoder;
 
 	
 
@@ -80,6 +84,16 @@ public class SpringDataXmlConfigTest {
 		assertEquals(2, repository.findAll().get(0).getRoles().size());
 		assertTrue(bCryptPasswordEncoder.matches("pass", repository.findAll().get(0).getPassword()));
 		
+	}
+	
+	@Test
+	public void encodeNoOPPass() {
+		System.out.println(noOpPasswordEncoder.encode("pass"));
+	}
+	
+	@Test
+	public void encodeBcryptPass() {
+		System.out.println(bCryptPasswordEncoder.encode("pass"));
 	}
 
 	

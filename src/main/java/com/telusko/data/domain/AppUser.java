@@ -33,17 +33,18 @@ public class AppUser implements UserDetails {
 	private String password;
 	
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	Set<Role> roles;
 
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<String> roles = new ArrayList<String>();
+		
 		for (Role obj : this.getRoles()) {
 			roles.add(obj.getRoleName());
 		}
-		return AuthorityUtils.createAuthorityList((String[]) roles.toArray());
+		return AuthorityUtils.createAuthorityList(roles.toArray(new String[roles.size()]));
 	}
 
 

@@ -34,7 +34,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		return new User(user.getName(),user.getPassword(),
 										AuthorityUtils.createAuthorityList((String[]) user.getRoles().toArray()));*/
 		
-		return repo.findByName(name);
+		return repo.findByUserName(name);
 	}
 
 }

@@ -18,6 +18,7 @@
 		</sec:authorize>
 		<sec:authorize access="!isAuthenticated()">
   			<li><a href='<c:url value="/login"></c:url>'>Sign in</a></li>
+  			<li><a href='<c:url value="/register"></c:url>'>Register</a></li>
 		</sec:authorize>
 		
 		

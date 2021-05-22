@@ -28,12 +28,18 @@ public class AppUser implements UserDetails {
 	private Long id;
 	
 	@Column(unique = true)
-	private String name;
+	private String userName;
 	
 	private String password;
 	
+	private String firstName;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private String lastName;
+	
+	private String email;
+	
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	Set<Role> roles;
 
 
@@ -51,7 +57,7 @@ public class AppUser implements UserDetails {
 	@Override
 	public String getUsername() {
 		
-		return this.getName();
+		return this.userName;
 	}
 
 

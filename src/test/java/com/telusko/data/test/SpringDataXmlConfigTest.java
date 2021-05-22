@@ -69,7 +69,7 @@ public class SpringDataXmlConfigTest {
 		Role role2 = new Role(null, "ROLE_USER");
 
 		Set<Role> roles = new HashSet<Role>(Arrays.asList(role1,role2));
-		AppUser user = new AppUser(null,"john",bCryptPasswordEncoder.encode("pass"), roles);
+		AppUser user = new AppUser(null,"john",bCryptPasswordEncoder.encode("pass"),"John","doe","john@doe.com", roles);
 		
 		
 		

@@ -77,6 +77,10 @@
                   <label>Password</label>
                   <input type="password" name="custom_password" class="form-control" placeholder="Enter Password">
                 </div>
+                <div class="form-group">
+                  <label>Make</label>
+                  <input type="text" name="make" class="form-control" placeholder="Enter Make">
+                </div>
                 <sec:csrfInput/>
                
                 <button type="submit" class="btn btn-default btn-block">Login</button>

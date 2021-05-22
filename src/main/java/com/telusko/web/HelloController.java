@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +36,9 @@ public class HelloController {
 	
 	@Autowired
 	RoleRepo roleRepo;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@RequestMapping("/")
 	public String home() {
@@ -57,6 +61,7 @@ public class HelloController {
 		roles.add(adminRole==null?roleRepo.save(new Role(null,"ROLE_ADMIN")):adminRole);
 		roles.add(userRole==null?roleRepo.save(new Role(null,"ROLE_USER")):userRole);
 		user.setRoles(roles);
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepo.save(user);
 		
 		Authentication auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(),user.getAuthorities());

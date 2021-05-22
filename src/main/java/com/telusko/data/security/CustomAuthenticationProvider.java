@@ -21,8 +21,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
 
-	@Override
+	/*@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)authentication;
 		AppUser user = userRepo.findByUserName(token.getName());
@@ -33,11 +35,30 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());		
 		
 	}
-
+	
 	@Override
 	public boolean supports(Class<?> authentication) {
 		
 		return UsernamePasswordAuthenticationToken.class.equals(authentication);
+	}*/
+	
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		CustomAuthenticationToken token = (CustomAuthenticationToken)authentication;
+		AppUser user = userRepo.findByUserName(token.getName());
+		if(user==null || !bCryptPasswordEncoder.matches(token.getCredentials().toString(), user.getPassword())
+				|| !token.getMake().equalsIgnoreCase("subaru")) {
+			throw new BadCredentialsException("The credentials are invalid");
+		}
+		
+		return new CustomAuthenticationToken(user, user.getPassword(), user.getAuthorities(),token.getMake());		
+		
+	}
+	
+	@Override
+	public boolean supports(Class<?> authentication) {
+		
+		return CustomAuthenticationToken.class.equals(authentication);
 	}
 
 }

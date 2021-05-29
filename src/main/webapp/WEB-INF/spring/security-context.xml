@@ -36,7 +36,7 @@
 						authentication-failure-url="/login?error=true"/>  -->
 									
 			<security:logout delete-cookies="JSESSIONID"  invalidate-session="true" logout-url="/logout" 
-								logout-success-url="/login/?logout=true"/>
+								logout-success-url="/login?logout=true"/>
 			
 			<!-- <security:http-basic/> -->
 			
@@ -63,7 +63,7 @@
 		</bean>
 		
 		<bean id="loginEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-			<constructor-arg value="/login/"></constructor-arg>
+			<constructor-arg value="/login"></constructor-arg>
 		</bean>
 		
 		<security:authentication-manager alias="authenticationManager">

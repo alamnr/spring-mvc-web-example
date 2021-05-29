@@ -58,8 +58,8 @@ public class HelloController {
 		Set<Role> roles = new HashSet<Role>();
 		Role adminRole = roleRepo.findByRoleName("ROLE_ADMIN");
 		Role userRole = roleRepo.findByRoleName("ROLE_USER");
-		roles.add(adminRole==null?roleRepo.save(new Role(null,"ROLE_ADMIN")):adminRole);
-		roles.add(userRole==null?roleRepo.save(new Role(null,"ROLE_USER")):userRole);
+		roles.add(adminRole==null?roleRepo.save(new Role(null,"ROLE_ADMIN",null,null,null,null)):adminRole);
+		roles.add(userRole==null?roleRepo.save(new Role(null,"ROLE_USER",null,null,null,null)):userRole);
 		user.setRoles(roles);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepo.save(user);

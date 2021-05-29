@@ -2,12 +2,18 @@ package com.telusko.data.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class AppUser implements UserDetails {
 	
 	
@@ -38,9 +45,19 @@ public class AppUser implements UserDetails {
 	
 	private String email;
 	
-	
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	Set<Role> roles;
+	
+
+	@CreatedBy
+	private String createdBy;
+	@LastModifiedBy
+	private String lastModifiedBy;
+	@CreatedDate
+	private Date createdDate;
+	@LastModifiedDate
+	private Date lastModifiedDate;
+	
 
 
 	@Override

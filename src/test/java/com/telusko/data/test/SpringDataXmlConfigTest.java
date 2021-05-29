@@ -34,6 +34,7 @@ import org.springframework.test.context.transaction.TestTransaction;
 
 import com.telusko.data.domain.Role;
 import com.telusko.data.domain.AppUser;
+import com.telusko.data.repo.RoleRepo;
 import com.telusko.data.repo.UserRepo;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -54,6 +55,8 @@ public class SpringDataXmlConfigTest {
 	@Autowired
 	NoOpPasswordEncoder noOpPasswordEncoder;
 
+	@Autowired
+	RoleRepo roleRepo;
 	
 
 	@Before
@@ -65,21 +68,21 @@ public class SpringDataXmlConfigTest {
 	
 	public void testDerivedQuery() throws ParseException {
 		
-		Role role1 = new Role(null, "ROLE_ADMIN");
-		Role role2 = new Role(null, "ROLE_USER");
-
-		Set<Role> roles = new HashSet<Role>(Arrays.asList(role1,role2));
-		AppUser user = new AppUser(null,"john",bCryptPasswordEncoder.encode("pass"),"John","doe","john@doe.com", roles);
+		Set<Role> roles = new HashSet<Role>();
+		Role adminRole = roleRepo.findByRoleName("ROLE_ADMIN");
+		Role userRole = roleRepo.findByRoleName("ROLE_USER");
+		roles.add(adminRole==null?roleRepo.save(new Role(null,"ROLE_ADMIN",null,null,null,null)):adminRole);
+		roles.add(userRole==null?roleRepo.save(new Role(null,"ROLE_USER",null,null,null,null)):userRole);
 		
-		
+		AppUser user = new AppUser(null,"john",bCryptPasswordEncoder.encode("pass"),"John","doe","john@doe.com", roles,null,null,null,null);
 		
 		repository.save(user);
 		
-		Hibernate.initialize(user);
+		//Hibernate.initialize(user);
 		
 		assertEquals(1, repository.findAll().size());
 		
-		Hibernate.initialize(user);  // for reading  data from lazy loaded entity
+		//Hibernate.initialize(user);  // for reading  data from lazy loaded entity
 		
 		assertEquals(2, repository.findAll().get(0).getRoles().size());
 		assertTrue(bCryptPasswordEncoder.matches("pass", repository.findAll().get(0).getPassword()));

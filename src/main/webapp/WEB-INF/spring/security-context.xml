@@ -11,7 +11,8 @@
 		<bean id ="bcryptPasswordEncoder" class = "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 		
 
-		<security:http entry-point-ref="loginEntryPoint">			
+		<security:http auto-config="false" use-expressions="true" entry-point-ref="loginEntryPoint">			
+    		<security:custom-filter ref="customFormLoginFilter" position="FORM_LOGIN_FILTER"/>
     		
     		<security:intercept-url pattern="/secure" access="hasRole('ADMIN')"/>
 			<security:intercept-url pattern="/add"  access="hasRole('ADMIN')"/>
@@ -33,9 +34,9 @@
 			<!-- <security:form-login login-page="/login" login-processing-url="/login" username-parameter="custom_name" 
 						password-parameter="custom_password" default-target-url="/" always-use-default-target="true"
 						authentication-failure-url="/login?error=true"/>  -->
-			<security:custom-filter ref="customFormLoginFilter" position="FORM_LOGIN_FILTER"/>						
+									
 			<security:logout delete-cookies="JSESSIONID"  invalidate-session="true" logout-url="/logout" 
-								logout-success-url="/login?logout=true"/>
+								logout-success-url="/login/?logout=true"/>
 			
 			<!-- <security:http-basic/> -->
 			
@@ -43,7 +44,7 @@
 		</security:http>
 		
 		<bean id="customFormLoginFilter" class="com.telusko.data.security.CustomAuthenticationFilter">
-			<property name="filterProcessesUrl" value="/login"></property>
+			<property name="filterProcessesUrl" value="/dologin" ></property>
 			<property name="authenticationManager" ref="authenticationManager"></property>
 			<property name="usernameParameter" value="custom_username"></property>
 			<property name="passwordParameter" value="custom_password"></property>
@@ -54,6 +55,7 @@
 			</property>
 			<property name="authenticationFailureHandler">
 				<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+					<!-- <property name="defaultFailureUrl" value="/login?error=true"></property> -->
 					<property name="defaultFailureUrl" value="/login?error=true"></property>
 				</bean>
 			</property>
@@ -61,7 +63,7 @@
 		</bean>
 		
 		<bean id="loginEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-			<constructor-arg value="/login"></constructor-arg>
+			<constructor-arg value="/login/"></constructor-arg>
 		</bean>
 		
 		<security:authentication-manager alias="authenticationManager">

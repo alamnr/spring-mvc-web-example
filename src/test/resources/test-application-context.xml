@@ -20,8 +20,9 @@
 	
 	<bean id="noOpPassEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
 
-	<jdbc:embedded-database id="dataSource"
-		type="H2" />
+	<jdbc:embedded-database id="dataSource" type="H2" >
+		<jdbc:script location="classpath:init.sql"/>
+	</jdbc:embedded-database>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

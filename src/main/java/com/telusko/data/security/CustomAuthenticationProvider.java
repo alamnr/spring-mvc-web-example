@@ -6,11 +6,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.telusko.data.domain.AppUser;
 import com.telusko.data.repo.UserRepo;
+
 
 
 @Component("customAuthenticationProvider")
@@ -44,13 +46,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		CustomAuthenticationToken token = (CustomAuthenticationToken)authentication;
+		CustomAuthenticationToken token = (CustomAuthenticationToken) authentication;
 		AppUser user = userRepo.findByUserName(token.getName());
-		if(user==null || !bCryptPasswordEncoder.matches(token.getCredentials().toString(), user.getPassword())
-				|| !token.getMake().equalsIgnoreCase("subaru")) {
-			throw new BadCredentialsException("The credentials are invalid");
+		//System.out.println(token.getCredentials().toString());
+		//System.out.println(user.getPassword());
+		//System.out.println(bCryptPasswordEncoder.matches(token.getCredentials().toString(),user.getPassword()));
+		if(user == null ) {
+			throw new UsernameNotFoundException(token.getName());
 		}
-		
+		if(!bCryptPasswordEncoder.matches(token.getCredentials().toString(),user.getPassword())
+				|| !token.getMake().equalsIgnoreCase("subaru")) {
+			throw new BadCredentialsException("bad credentials");
+		}
 		return new CustomAuthenticationToken(user, user.getPassword(), user.getAuthorities(),token.getMake());		
 		
 	}

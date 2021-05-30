@@ -11,8 +11,8 @@
 		<bean id ="bcryptPasswordEncoder" class = "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 		
 
-		<security:http auto-config="false" use-expressions="true" entry-point-ref="loginEntryPoint">			
-    		<security:custom-filter ref="customFormLoginFilter" position="FORM_LOGIN_FILTER"/>
+		
+    		<security:http auto-config="false" use-expressions="true">
     		
     		<security:intercept-url pattern="/secure" access="hasRole('ADMIN')"/>
 			<security:intercept-url pattern="/add"  access="hasRole('ADMIN')"/>
@@ -31,9 +31,9 @@
 			 <!-- default login -->
 			<!-- <security:form-login/>  -->
 			 <!--Custom login  -->
-			<!-- <security:form-login login-page="/login" login-processing-url="/login" username-parameter="custom_name" 
+			<security:form-login login-page="/login" login-processing-url="/login" username-parameter="custom_username" 
 						password-parameter="custom_password" default-target-url="/" always-use-default-target="true"
-						authentication-failure-url="/login?error=true"/>  -->
+						authentication-failure-url="/login?error=true"/>  
 									
 			<security:logout delete-cookies="JSESSIONID"  invalidate-session="true" logout-url="/logout" 
 								logout-success-url="/login?logout=true"/>
@@ -43,38 +43,11 @@
 			<!-- <security:csrf disabled="true"/>  -->
 		</security:http>
 		
-		<bean id="customFormLoginFilter" class="com.telusko.data.security.CustomAuthenticationFilter">
-			<property name="filterProcessesUrl" value="/dologin" ></property>
-			<property name="authenticationManager" ref="authenticationManager"></property>
-			<property name="usernameParameter" value="custom_username"></property>
-			<property name="passwordParameter" value="custom_password"></property>
-			<property name="authenticationSuccessHandler">
-				<bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-					<property name="defaultTargetUrl" value="/"></property>
-				</bean>
-			</property>
-			<property name="authenticationFailureHandler">
-				<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-					<!-- <property name="defaultFailureUrl" value="/login?error=true"></property> -->
-					<property name="defaultFailureUrl" value="/login?error=true"></property>
-				</bean>
-			</property>
 		
-		</bean>
 		
-		<bean id="loginEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-			<constructor-arg value="/login"></constructor-arg>
-		</bean>
-		
-		<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider ref="customAuthenticationProvider">
-			<!-- <security:authentication-provider user-service-ref="customUserDetailService"> -->
-				<!-- <security:user-service>
-					<security:user name="user" password="pass" authorities="ROLE_USER"/>
-					<security:user name="admin" password="pass" authorities="ROLE_USER,ROLE_ADMIN"/>						
-				</security:user-service> -->
-				<!-- <security:password-encoder ref="passwordEncoder"/> -->
-				<!-- <security:password-encoder ref="bcryptPasswordEncoder"/> -->
+		<security:authentication-manager>
+			<security:authentication-provider>
+				<security:jdbc-user-service data-source-ref="dataSource"/>
 				
 			</security:authentication-provider>		
 		</security:authentication-manager>

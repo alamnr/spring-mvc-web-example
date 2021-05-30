@@ -9,9 +9,9 @@ import com.telusko.data.domain.AppUser;
 public class AddService {
 	
 	public int addMe(int i,int j) {
-		AppUser user = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user);
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+		//AppUser user = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//System.out.println(user);
+		//System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 		return i+j;
 	}
 

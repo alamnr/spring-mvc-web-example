@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +40,7 @@ public class HelloController {
 	RoleRepo roleRepo;
 	
 	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	PasswordEncoder passwordEncoder;
 
 	@RequestMapping("/")
 	public String home() {
@@ -62,7 +63,7 @@ public class HelloController {
 		roles.add(adminRole==null?roleRepo.save(new Role(null,"ROLE_ADMIN",null,null,null,null)):adminRole);
 		roles.add(userRole==null?roleRepo.save(new Role(null,"ROLE_USER",null,null,null,null)):userRole);
 		user.setRoles(roles);
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepo.save(user);
 		
 		Authentication auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(),user.getAuthorities());
